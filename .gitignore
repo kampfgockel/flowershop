@@ -6,6 +6,7 @@
 *.pot
 *.pyc
 __pycache__/
+migrations/
 local_settings.py
 
 # uncomment the three lines below to remove them if it gets too big

@@ -30,7 +30,7 @@ venv/Scripts/Activate
 # It helps to upgrade pip first
 python.exe -m pip install --upgrade pip
 
-# Install all other libraries with
+# Install all other libraries making sure after installing all that the versions match requirements.txt
 # It will likely error our and you may have to run a few packages manually
 # The creators of flower and beat haven't really kept up with the celery updates
 pip install -r requirements.txt
@@ -58,3 +58,19 @@ http://localhost:5555
 # You can see all the rest of your tasks etc. in the Django Admin terminal
 http://localhost/Admin
 create a user with 'python manage.py createsuperuser'
+
+
+
+# if you get the NotImplementedError add the following code to this file
+# this file if using a venv
+C:\path\to\your\project\venv\lib\site-packages\tornado\platform\asyncio.py
+# this file if not using venv
+C:\Users\username\AppData\Local\Programs\Python\Python39\Lib\site-packages\tornado\platform\asyncio.py
+# this file if you have it set up in the root of our project 
+C:\path\to\your\project\flowerconfig.py 
+  
+import asyncio
+import sys
+
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
