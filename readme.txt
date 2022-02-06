@@ -60,6 +60,9 @@ http://localhost/Admin
 create a user with 'python manage.py createsuperuser'
 
 
+#############################################################
+############### Troubleshooting Common Errors ###############
+#############################################################
 
 # if you get the NotImplementedError add the following code to this file
 # this file if using a venv
@@ -74,3 +77,14 @@ import sys
 
 if sys.platform == 'win32':
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
+
+# if you get this error you may not have started all the instances with the right code
+# you might also need to run migrations or recreate the db and run migrations
+django.db.utils.OperationalError: no such column: django_celery_beat_clockedschedule.enabled
+
+
+
+# django celery beat error 'Seems we're already running?(pid:2176)'
+find the celerybeat.pid file (in your main project directory) and delete it
+
