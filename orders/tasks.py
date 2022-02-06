@@ -1,9 +1,10 @@
-from celery import task
+from __future__ import absolute_import, unicode_literals
+from celery import shared_task
 from django.core.mail import send_mail
 from .models import Order
 
 
-@task
+@shared_task
 def order_created(order_id):
     """
     Task to send an e-mail notification when an order is
@@ -18,4 +19,6 @@ def order_created(order_id):
                           message,
                           'admin@fakeshop.com',
                           [order.email])
+    
+    
     return mail_sent
