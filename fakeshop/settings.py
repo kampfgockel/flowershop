@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,9 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',    
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
-    'orders.apps.OrdersConfig',
+    'orders.apps.OrdersConfig',    
     'django_celery_beat',
     'django_celery_results',
+    'social_django',
+    'django_extensions',
+    'easy_thumbnails',
+    'images.apps.ImagesConfig',
+    'actions.apps.ActionsConfig',
+    
 ]
 
 MIDDLEWARE = [
@@ -123,7 +130,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATIC_ROOT= os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'fakeshop/static')
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
@@ -137,3 +148,36 @@ CELERY_RESULT_BACKEND = 'django-db'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'account.authentication.EmailAuthBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.google.GoogleOAuth2',
+]
+
+SOCIAL_AUTH_FACEBOOK_KEY = '' # Facebook App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '' # Facebook App Secret
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+
+SOCIAL_AUTH_TWITTER_KEY = '' # Twitter API Key
+SOCIAL_AUTH_TWITTER_SECRET = '' # Twitter API Secret
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '' # Google Consumer Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '' # Google Consumer Secret
+
+from django.urls import reverse_lazy
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: reverse_lazy('user_detail',
+                                        args=[u.username])
+}
+
+
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB = 0
