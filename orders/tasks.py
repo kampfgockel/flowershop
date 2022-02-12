@@ -33,9 +33,9 @@ lstDomainNames = ['@gmail.com','@yahoo.com','@icloud.com','@outlook.com','@hotma
 @shared_task
 def fake_order():
     
-    first_name = lstFirstNames[random.randint(0,len(lstFirstNames))]
-    last_name = lstLastNames[random.randint(0,len(lstLastNames))]
-    email = f"{first_name}.{last_name}{lstDomainNames[random.randint(0,len(lstDomainNames))]}" #i.e. john.smith@gmail.com
+    first_name = lstFirstNames[random.randint(0,len(lstFirstNames)-1)]
+    last_name = lstLastNames[random.randint(0,len(lstLastNames)-1)]
+    email = f"{first_name}.{last_name}{lstDomainNames[random.randint(0,len(lstDomainNames)-1)]}" #i.e. john.smith@gmail.com
     address = 'Fake Road 123'
     postal_code = '89234'
     city = 'Fake City'
@@ -56,12 +56,12 @@ def fake_order():
         )
     newOrder.save()
     for n in range(1,random.randint(1,5)):
-        productId = random.randint(1,4)
+        productId = random.randint(1,Product.objects.count())
         newOrderItem = OrderItem(
             order = Order.objects.get(id = newOrder.id),
             product = Product.objects.get(id = productId),
             price = Product.objects.get(id = productId).price,
-            quantity = random.randint(0,5)
+            quantity = random.randint(1,5)
         )
         newOrderItem.save()
     
